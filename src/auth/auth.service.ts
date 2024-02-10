@@ -2,23 +2,18 @@ import { BadRequestException, Injectable, UnauthorizedException } from "@nestjs/
 import { Model } from "mongoose";
 import { InjectModel } from "@nestjs/mongoose";
 import { User } from "../user/interfaces/user.interface";
-import { JwtService } from "@nestjs/jwt";
-import Cryptr from 'cryptr';
 import { JwtPayload, sign } from "jsonwebtoken";
 
 @Injectable()
 export class AuthService {
-  private cryptr: Cryptr;
   constructor(
     @InjectModel('User') private readonly userModel: Model<User>,
   ) {
-    this.cryptr = new Cryptr(process.env.ENCRYPT_JWT_SECRET);
   }
 
   async createAccessToken(userId: string) {
     // const accessToken = this.jwtService.sign({userId});
-    const accessToken = sign({userId}, process.env.JWT_SECRET , { expiresIn: process.env.JWT_EXPIRATION });
-    return this.encryptText(accessToken);
+    return sign({ userId }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRATION });
   }
 
   async validateUser(jwtPayload: JwtPayload): Promise<any> {
@@ -44,15 +39,13 @@ export class AuthService {
     if (request.query.token) {
       token = request.body.token.replace(' ', '');
     }
-    const cryptr = new Cryptr(process.env.ENCRYPT_JWT_SECRET);
     if (token) {
       try {
-        token = cryptr.decrypt(token);
+        return token;
       } catch (err) {
         throw new BadRequestException('Bad request.');
       }
     }
-    return token;
   }
 
   // ***********************
@@ -62,10 +55,5 @@ export class AuthService {
   // ***********************
   returnJwtExtractor() {
     return this.jwtExtractor;
-  }
-
-
-  encryptText(text: string): string {
-    return this.cryptr.encrypt(text);
   }
 }
