@@ -5,6 +5,7 @@ import { PassportModule } from "@nestjs/passport";
 import { JwtModule } from '@nestjs/jwt';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from "./strategies/jwt.strategy";
+import { AuthGuard } from "./guards/auth.guard";
 
 @Module({
   imports: [MongooseModule.forFeature([
@@ -12,11 +13,12 @@ import { JwtStrategy } from "./strategies/jwt.strategy";
   ]),
     PassportModule,
     JwtModule.register({
+      global: true,
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: process.env.JWT_EXPIRATION },
     }),
   ],
-  providers: [AuthService, JwtStrategy],
-  exports: [AuthService]
+  providers: [AuthService, JwtStrategy, AuthGuard],
+  exports: [AuthService, AuthGuard]
 })
 export class AuthModule {}

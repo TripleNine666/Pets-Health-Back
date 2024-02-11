@@ -17,7 +17,7 @@ export class AuthService {
   }
 
   async validateUser(jwtPayload: JwtPayload): Promise<any> {
-    const user = await this.userModel.findOne({_id: jwtPayload.userId, verified: true});
+    const user = await this.userModel.findOne({_id: jwtPayload.userId});
     if (!user) {
       throw new UnauthorizedException('User not found.');
     }
@@ -27,7 +27,7 @@ export class AuthService {
   //   ┬┬ ┬┌┬┐  ┌─┐─┐ ┬┌┬┐┬─┐┌─┐┌─┐┌┬┐┌─┐┬─┐
   //   ││││ │   ├┤ ┌┴┬┘ │ ├┬┘├─┤│   │ │ │├┬┘
   //  └┘└┴┘ ┴   └─┘┴ └─ ┴ ┴└─┴ ┴└─┘ ┴ └─┘┴└─
-  private jwtExtractor(request) {
+  jwtExtractor(request) {
     let token = null;
     if (request.header('x-token')) {
       token = request.get('x-token');

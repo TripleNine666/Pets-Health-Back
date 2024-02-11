@@ -29,7 +29,7 @@ export class UserController {
 
   @Post('login')
   @HttpCode(HttpStatus.OK)
-  @ApiOperation({summary: 'Login User',})
+  @ApiOperation({summary: 'Login User'})
   @ApiOkResponse({})
   async login(@Req() req: Request, @Body() loginUserDto: LoginUserDto) {
     return await this.userService.login(req, loginUserDto);
