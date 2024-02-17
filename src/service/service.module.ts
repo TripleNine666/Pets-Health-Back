@@ -11,6 +11,7 @@ import { AuthModule } from "../auth/auth.module";
     AuthModule
   ],
   providers: [ServiceService],
-  controllers: [ServiceController]
+  controllers: [ServiceController],
+  exports: [ServiceService, MongooseModule.forFeature([{ name: Service.name, schema: ServiceSchema, collection: "Services" }])]
 })
 export class ServiceModule {}
