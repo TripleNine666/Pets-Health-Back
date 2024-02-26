@@ -5,6 +5,7 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { ServiceModule } from './service/service.module';
 import { ClinicModule } from './clinic/clinic.module';
+import { PetModule } from './pet/pet.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { ClinicModule } from './clinic/clinic.module';
     AuthModule,
     ServiceModule,
     ClinicModule,
+    PetModule,
   ],
   controllers: [],
   providers: [],

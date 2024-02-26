@@ -6,6 +6,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import { ServiceModule } from "./service/service.module";
 import { ClinicModule } from "./clinic/clinic.module";
+import { PetModule } from "./pet/pet.module";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -48,7 +49,8 @@ async function bootstrap() {
     include: [
       UserModule,
       ServiceModule,
-      ClinicModule
+      ClinicModule,
+      PetModule
     ],
   });
   SwaggerModule.setup('api', app, document, swaggerOptions);
