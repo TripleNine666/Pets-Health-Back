@@ -19,7 +19,7 @@ export class UserController {
   // ╔═╗╦ ╦╔╦╗╦ ╦╔═╗╔╗╔╔╦╗╦╔═╗╔═╗╔╦╗╔═╗
   // ╠═╣║ ║ ║ ╠═╣║╣ ║║║ ║ ║║  ╠═╣ ║ ║╣
   // ╩ ╩╚═╝ ╩ ╩ ╩╚═╝╝╚╝ ╩ ╩╚═╝╩ ╩ ╩ ╚═╝
-  @Post()
+  @Post('register')
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({summary: 'Register user'})
   @ApiCreatedResponse({})

@@ -17,11 +17,15 @@ export class UserService {
   // ┌─┐┬─┐┌─┐┌─┐┌┬┐┌─┐  ┬ ┬┌─┐┌─┐┬─┐
   // │  ├┬┘├┤ ├─┤ │ ├┤   │ │└─┐├┤ ├┬┘
   // └─┘┴└─└─┘┴ ┴ ┴ └─┘  └─┘└─┘└─┘┴└─
-  async create(createUserDto: CreateUserDto): Promise<User> {
+  async create(createUserDto: CreateUserDto){
     const user = new this.userModel(createUserDto);
     await this.isEmailUnique(user.get("email"));
     await user.save();
-    return this.buildRegistrationInfo(user);
+    return {
+      fullName: user.fullName,
+      email: user.email,
+      accessToken: await this.authService.createAccessToken(user._id, user.fullName, user.email),
+    };
   }
 
   // ┬  ┌─┐┌─┐┬┌┐┌
@@ -33,7 +37,7 @@ export class UserService {
     return {
       fullName: user.fullName,
       email: user.email,
-      accessToken: await this.authService.createAccessToken(user._id),
+      accessToken: await this.authService.createAccessToken(user._id, user.fullName, user.email),
     };
   }
 

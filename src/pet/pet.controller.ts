@@ -46,7 +46,7 @@ export class PetController {
   }
 
   @Get(':id')
-  @HttpCode(HttpStatus.FOUND)
+  @HttpCode(HttpStatus.OK)
   @ApiBearerAuth('defaultBearerAuth')
   @ApiOperation({summary: 'Pet'})
   @ApiOkResponse({})

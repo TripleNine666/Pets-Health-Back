@@ -23,7 +23,7 @@ export class CreatePetDto {
   })
   @IsNumber()
   @IsPositive()
-  readonly age: string;
+  readonly age: number;
 
   @ApiProperty({
     example: 'Dog',
@@ -49,6 +49,14 @@ export class CreatePetDto {
   @MinLength(0)
   @MaxLength(255)
   readonly breed: string;
+
+  @ApiProperty({
+    example: 'Мужской',
+    description: 'Пол питомца',
+    format: 'string',
+  })
+  @IsString()
+  readonly sex: string;
 
   @ApiProperty({
     example: [],

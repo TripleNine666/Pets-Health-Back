@@ -27,7 +27,7 @@ export class UpdatePetProfileDto {
   @IsOptional()
   @IsNumber()
   @IsPositive()
-  readonly age: string;
+  readonly age: number;
 
   @ApiProperty({
     example: 'Dog',
@@ -55,4 +55,13 @@ export class UpdatePetProfileDto {
   @MinLength(2)
   @MaxLength(255)
   readonly breed: string;
+
+  @ApiProperty({
+    example: 'Мужской',
+    description: 'Пол питомца',
+    format: 'string',
+  })
+  @IsOptional()
+  @IsString()
+  readonly sex: string;
 }
