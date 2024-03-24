@@ -13,6 +13,7 @@ import { AuthModule } from "../auth/auth.module";
     AuthModule
   ],
   providers: [ClinicService],
-  controllers: [ClinicController]
+  controllers: [ClinicController],
+  exports: [ClinicService]
 })
 export class ClinicModule {}

@@ -30,6 +30,14 @@ export class ClinicService {
     return this.prepareClinic(clinics);
   }
 
+  async getClinicById(clinicId: string): Promise<Clinic> {
+    const clinic = await this.clinicModel.findById(clinicId).exec();
+    if (!clinic) {
+      throw new Error(`Clinic with id ${clinicId} not found`);
+    }
+    return clinic;
+  }
+
   private async prepareClinic(clinics: HydratedDocument<Clinic>[]): Promise<ClinicFull[]> {
     return await Promise.all(clinics.map(async (clinic: Clinic) => {
       const services = await this.serviceModel.find({ _id: { $in: clinic.serviceIds } }).exec();

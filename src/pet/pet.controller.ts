@@ -46,12 +46,13 @@ export class PetController {
   }
 
   @Get(':id')
+  @UseGuards(AuthGuard)
   @HttpCode(HttpStatus.OK)
   @ApiBearerAuth('defaultBearerAuth')
   @ApiOperation({summary: 'Pet'})
   @ApiOkResponse({})
-  findOne(@Param('id') id: string) {
-    return this.petsService.findOne(id);
+  findOne(@Param('id') id: string, @Req() req) {
+    return this.petsService.findOne(id, req.user.userId);
   }
 
   @UseGuards(AuthGuard)

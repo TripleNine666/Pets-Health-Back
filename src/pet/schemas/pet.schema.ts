@@ -33,12 +33,16 @@ export class Pet extends Document {
   @Prop()
   breed: string;
 
-  @Prop({ type: [{ date: Date, title: String, name: String, price: Number }], default: [] })
+  @Prop()
+  sex: string;
+
+  @Prop({ type: [{ date: Date, title: String, name: String, price: Number, clinicId: String }], default: [] })
   orders: {
     date: Date;
     title: string;
     name: string;
     price: number;
+    clinicId: string
   }[];
 }
 

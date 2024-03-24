@@ -36,5 +36,15 @@ export class OrderDto {
   @IsNotEmpty()
   @IsNumber()
   price: number;
+
+  @ApiProperty({
+    example: '1',
+    description: 'The clinic id',
+    format: 'string',
+  })
+  @IsNotEmpty()
+  @IsString()
+  clinicId: string;
 }
+
 
