@@ -1,6 +1,5 @@
-import { OrderDto } from "../dto/oder-pet.dto";
-import { Clinic } from "../../clinic/schemas/clinic.schema";
-
+import { OrderDto } from '../dto/oder-pet.dto';
+import ClinicFull from '../../clinic/interfaces/clinic.interface';
 
 export interface IPet {
   _id: string;
@@ -23,6 +22,6 @@ export interface PetWithClinic {
     title: string;
     name: string;
     price: number;
-    clinic: Clinic; // Заменяем clinicId на объект клиники
+    clinic: ClinicFull; // Заменяем clinicId на объект клиники
   }[];
 }
