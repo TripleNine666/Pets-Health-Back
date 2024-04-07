@@ -1,14 +1,16 @@
-import { IsDateString, IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { IsDate, IsDateString, IsNotEmpty, IsNumber, IsString } from "class-validator";
 import { ApiProperty } from "@nestjs/swagger";
+import { Transform, Type } from "class-transformer";
 
 export class OrderDto {
   @ApiProperty({
     description: 'Date',
-    format: 'string',
+    format: 'Date',
   })
   @IsNotEmpty()
-  @IsDateString()
-  date: string;
+  @Transform(({ value }) => new Date(value))
+  @Type(() => Date)
+  date: Date;
 
   @ApiProperty({
     example: 'Прием',
