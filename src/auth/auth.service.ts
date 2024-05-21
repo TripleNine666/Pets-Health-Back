@@ -8,14 +8,11 @@ import { JwtPayload, sign } from "jsonwebtoken";
 export class AuthService {
   constructor(
     @InjectModel('User') private readonly userModel: Model<User>,
-  ) {
-  }
+  ) {}
 
   async createAccessToken(userId: string, name:string, email: string) {
-    // const accessToken = this.jwtService.sign({userId});
     return sign({ userId, name, email }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRATION });
   }
-
   async validateUser(jwtPayload: JwtPayload): Promise<any> {
     const user = await this.userModel.findOne({_id: jwtPayload.userId});
     if (!user) {
@@ -23,10 +20,6 @@ export class AuthService {
     }
     return user;
   }
-
-  //   ┬┬ ┬┌┬┐  ┌─┐─┐ ┬┌┬┐┬─┐┌─┐┌─┐┌┬┐┌─┐┬─┐
-  //   ││││ │   ├┤ ┌┴┬┘ │ ├┬┘├─┤│   │ │ │├┬┘
-  //  └┘└┴┘ ┴   └─┘┴ └─ ┴ ┴└─┴ ┴└─┘ ┴ └─┘┴└─
   jwtExtractor(request) {
     let token = null;
     if (request.header('x-token')) {

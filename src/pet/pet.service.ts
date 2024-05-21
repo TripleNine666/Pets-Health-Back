@@ -37,7 +37,7 @@ export class PetService {
         title: order.title,
         name: order.name,
         price: order.price,
-        clinic: clinic // Заменяем clinicId на объект клиники
+        clinic: clinic
       };
     }));
 

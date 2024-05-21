@@ -54,13 +54,6 @@ export class UserService {
     }
   }
 
-  private buildRegistrationInfo(user): any {
-    return {
-      fullName: user.fullName,
-      email: user.email,
-    };
-  }
-
   private async findUserByEmail(email: string): Promise<User> {
     const user = await this.userModel.findOne({email});
     if (!user) {
