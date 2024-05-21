@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { ServiceModule } from './service/service.module';
 import { ClinicModule } from './clinic/clinic.module';
 import { PetModule } from './pet/pet.module';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { PetModule } from './pet/pet.module';
     ServiceModule,
     ClinicModule,
     PetModule,
+    MailModule,
   ],
   controllers: [],
   providers: [],

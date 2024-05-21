@@ -17,11 +17,12 @@ import { PetService } from "./pet.service";
 import { UpdatePetProfileDto } from "./dto/update-pet.dto";
 import { OrderDto } from "./dto/oder-pet.dto";
 import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
+import { MailService } from "../mail/mail.service";
 
 @ApiTags('Pets')
 @Controller('pets')
 export class PetController {
-  constructor(private readonly petsService: PetService) {}
+  constructor(private readonly petsService: PetService, private mailService: MailService) {}
 
   @UseGuards(AuthGuard)
   @Post()
@@ -71,7 +72,9 @@ export class PetController {
   @HttpCode(HttpStatus.OK)
   @ApiOperation({summary: 'Add order'})
   @ApiOkResponse({})
-  async addOrderToPet(@Param('id') id: string, @Body() orderDto: OrderDto) {
+  async addOrderToPet(@Req() req, @Param('id') id: string, @Body() orderDto: OrderDto) {
+    const { email, name } = req.user
+    await this.mailService.sendUserConfirmation(email, name);
     return this.petsService.addOrderToPet(id, orderDto);
   }
 
