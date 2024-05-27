@@ -18,11 +18,13 @@ import { UpdatePetProfileDto } from "./dto/update-pet.dto";
 import { OrderDto } from "./dto/oder-pet.dto";
 import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
 import { MailService } from "../mail/mail.service";
+import { ClinicService } from "../clinic/clinic.service";
+import { ISendMailPayload } from "../mail/mail.types";
 
 @ApiTags('Pets')
 @Controller('pets')
 export class PetController {
-  constructor(private readonly petsService: PetService, private mailService: MailService) {}
+  constructor(private readonly petsService: PetService, private mailService: MailService, private clinicService: ClinicService) {}
 
   @UseGuards(AuthGuard)
   @Post()
@@ -73,8 +75,16 @@ export class PetController {
   @ApiOperation({summary: 'Add order'})
   @ApiOkResponse({})
   async addOrderToPet(@Req() req, @Param('id') id: string, @Body() orderDto: OrderDto) {
-    const { email, name } = req.user
-    await this.mailService.sendUserConfirmation(email, name);
+    const { name, userId } = req.user
+    const clinic = await this.clinicService.getClinicById(orderDto.clinicId);
+    const pet = await this.petsService.findOneFast(id, userId)
+    const sendMailPayload: ISendMailPayload = {
+      name,
+      clinic,
+      pet,
+      orderDto
+    }
+    await this.mailService.sendUserConfirmation(sendMailPayload);
     return this.petsService.addOrderToPet(id, orderDto);
   }
 

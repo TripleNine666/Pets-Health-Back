@@ -25,10 +25,7 @@ export class PetService {
   }
 
   async findOne(id: string, userId: string): Promise<PetWithClinic> {
-    const pet = await this.petModel.findOne({ _id: id, userId }).exec();
-    if (!pet) {
-      throw new NotFoundException(`Pet with id ${id} not found`);
-    }
+    const pet = await this.findOneFast(id, userId)
 
     const ordersWithClinic = await Promise.all(pet.orders.map(async (order) => {
       const clinic = await this.clinicService.getClinicById(order.clinicId);
@@ -51,6 +48,14 @@ export class PetService {
       sex: pet.sex,
       orders: ordersWithClinic
     };
+  }
+
+  async findOneFast(id: string, userId: string): Promise<Pet> {
+    const pet = await this.petModel.findOne({ _id: id, userId }).exec();
+    if (!pet) {
+      throw new NotFoundException(`Pet with id ${id} not found`);
+    }
+    return pet;
   }
 
   async updatePetProfile(id: string, updatePetProfileDto: UpdatePetProfileDto): Promise<Pet> {

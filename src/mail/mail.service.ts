@@ -1,24 +1,18 @@
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
-import { User } from "../user/interfaces/user.interface";
+import { ISendMailPayload } from "./mail.types";
 
 @Injectable()
 export class MailService {
   constructor(private mailerService: MailerService) {}
 
-  async sendUserConfirmation(email: string, name: string) {
-    console.log('email: ', email);
-    console.log('name: ', name);
+  async sendUserConfirmation(payload: ISendMailPayload) {
+    const {name, clinic, orderDto, pet} = payload
     await this.mailerService.sendMail({
-      to: 'kolumb1709@gmail.com',
+      to: clinic.email,
       // from: '"Support Team" <support@example.com>', // override default from
-      subject: 'Welcome to Nice App! Confirm your Email',
-      template: './src/mail/templates/confirmation',
-      text: 'Тестовый текст а вдруг \n заработает' +
-        'А так',
-      context: { // ✏️ filling curly brackets with content
-        name,
-      },
+      subject: 'Запись на прием к ветеринару',
+      text: `Здравствуйте, хотим сообщить, что к вам в клинику записался ${name} со своим питомцем по кличке ${pet.name}: \n ${pet.type} порода: ${pet.breed}, пол: ${pet.sex}, возраст: ${pet.age} \n Услуга: ${orderDto.title}, ${orderDto.name} на дату ${new Date(orderDto.date).toLocaleString('ru-RU')} \n Цена ${orderDto.price} BYN`,
     });
   }
 }
